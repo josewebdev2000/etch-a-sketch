@@ -1,0 +1,47 @@
+/* Color Pallete and Spacing Indicators*/
+:root
+{
+    --dark-brown: #7D6D6D;
+    --light-brown: #D7BCBC;
+    --whitish: #FEFCFC;
+    --light-gray: #CFD6E1;
+    --dark-gray: #2F3A4B;
+    --extra-small: 8px;
+    --small: 16px;
+    --medium: 24px;
+    --large: 48px;
+    --extra-large: 72px;
+}
+
+*
+{
+    padding: 0;
+    margin: 0;
+}
+
+/* General Styles */
+body
+{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style the Header */
+header
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style the Main Content */
+main
+{
+    
+}
+
+/* Style the Footer */
+footer
+{
+   align-self: flex-end;
+}
