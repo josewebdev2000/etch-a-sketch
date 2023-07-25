@@ -5,6 +5,7 @@ let gridBgColor = "rgb(255,255,255)";
 let gridBorderColor = convertHexaColorToRGBColor("#CFD6E1");
 let showBorders = true;
 let colorMode = "classic";
+let gridSquares = null;
 const validGridSizes = [2, 4, 8, 16, 32, 64, 128];
 
 // Class name of each square of the grid
@@ -24,6 +25,12 @@ function main()
     // Create the first grid of squares
     createGrid(16, gridContainer);
 
+    // Grab the first version of the grid squares
+    gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
+
+    // Let the user color the grids of the canvas
+    colorGridsOfCanvas();
+
     // Place White as the default background color of every grid
     changeColorOfEveryGrid();
 
@@ -41,9 +48,6 @@ function main()
 
     // Let the user change the color of the canvas
     canvasColorInputElement.addEventListener("change", changeGridBgColor);
-
-    // Let the user color the grids of the canvas
-    //gridContainer.addEventListener("onmouseover", colorGridsOfCanvas);
 }
 
 /* Event Handlers Here */
@@ -61,6 +65,11 @@ function changeGridSize(e, gridContainer, pElement)
 
     // Create a new grid with the specified number of squares
     createGrid(validValue, gridContainer);
+
+    // Grab the first version of the grid squares
+    gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
+
+    colorGridsOfCanvas();
 
     // Make sure to modify background color of each grid
     changeColorOfEveryGrid();
@@ -93,19 +102,19 @@ function changeBorderGridColor(e)
 
 function colorGridsOfCanvas()
 {
-    console.log("I work");
-    // Grab a reference to the grid squares
-    //const gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
-
     // Add an event handler to each grid square to color it when the mouse is pressed on it
-    //gridSquares.forEach(gridSquare => {
-        //gridSquare.addEventListener("onmousedown", colorGrid);
-    //});
+    gridSquares.forEach(gridSquare => {
+        gridSquare.addEventListener("mouseover", colorGrid);
+    });
+
+    // Update the referece to the grid square to the most recent
+    gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
 }
 
 function colorGrid(e)
 {
     const gridToColor = e.target;
+    console.log(gridToColor);
     
     // Add the class of coloured grids to this grid
     if (!gridToColor.classList.contains(gridColoredClass))
@@ -113,8 +122,17 @@ function colorGrid(e)
         gridToColor.classList.add(gridColoredClass);
     }
 
-    // Change the background color of this grid to that of the color of the colored grid
-    gridToColor.style.backgroundColor = gridColoredColor;
+    // Consider drawing modes
+    switch (colorMode)
+    {
+        case "classic":
+            // Change the background color of this grid to that of the color of the colored grid
+            gridToColor.style.backgroundColor = gridColoredColor;
+            break;
+        
+        default:
+
+    }
 }
 
 /* Common Functions Here */
@@ -144,9 +162,6 @@ function changeColorOfEveryGrid(considerColoredGridSquares=false)
 {
     /* Change the color of each grid */
 
-    // Grab a reference to each grid square
-    const gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
-
     if (considerColoredGridSquares)
     {
         gridSquares.forEach(gridSquare => {
@@ -163,15 +178,13 @@ function changeColorOfEveryGrid(considerColoredGridSquares=false)
             gridSquare.style.backgroundColor = gridBgColor;
         });
     }
+
+    gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
 }
 
 function configureBorderOfEveryGrid(showBorder=true)
 {
     /* Configure the border of every grid square as 1px solid of whichever border color is available */
-
-    // Grab a reference to each grid square
-    const gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
-
     if (showBorder)
     {
         gridSquares.forEach(gridSquare => {
@@ -185,6 +198,8 @@ function configureBorderOfEveryGrid(showBorder=true)
             gridSquare.style.border = "none";
         });
     }
+
+    gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
 }
 
 function convertHexaColorToRGBColor(hexaColor)
