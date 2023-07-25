@@ -20,10 +20,63 @@
         <h1>Etch a Sketch</h1>
     </header>
     <main>
+        <section class="grid-options">
+            <h2>Grid Options</h2>
+
+            <div class="modes-container">
+                <button id="rainbow">Rainbow Mode</button>
+                <button id="classic">Classic Mode</button>
+                <button id="darken">Darken Mode</button>
+            </div>
+
+            <div class="extra-options">
+
+                <div class="show-borders-wrapper">
+                    <label for="show-borders">Show Borders</label>
+                    <input id="show-borders" type="checkbox" checked>
+                </div>
+
+                <div class="border-color-wrapper">
+                    <label for="border-color">Border Color</label>
+                    <input id="border-color" type="color">
+                </div>
+
+                <div class="canvas-color-wrapper">
+                    <label for="canvas-color">Canvas Color</label>
+                    <input id="canvas-color" type="color">
+                </div>
+
+                <div class="number-of-squares">
+                    <label for="number-of-squares">Number of Squares</label>
+                    <input id="number-of-squares" type="range" min="2" max="128" step="2" value="16">
+                    <p id="number-of-squares-shower">16</p>
+                </div>
+            </div>
+        </section>
+
         <section class="grid-container"></section>
-        I am the main content of this website
+
+        <section class="drawing-tools">
+            <h2>Drawing Tools</h2>
+        </section>
     </main>
-    <footer>I am the footer</footer>    
+    <footer>
+        <div class="footer-content">
+            <div class="profile-pic-container">
+                <a href="https://github.com/josewebdev2000" target="_blank">
+                    <img id="profile-pic" src="https://avatars.githubusercontent.com/u/115896482?v=4" alt="GitHub Profile Picture">
+                </a>
+            </div>
+
+            <div class="copyright">
+                <p>
+                    <a href="https://github.com/josewebdev2000" target="_blank">
+                        &copy; josewebdev2000
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>    
 </body>
 
 </html>
