@@ -6,6 +6,7 @@ let gridBorderColor = convertHexaColorToRGBColor("#CFD6E1");
 let showBorders = true;
 let colorMode = "classic";
 let gridSquares = null;
+let isDrawing = true;
 const validGridSizes = [2, 4, 8, 16, 32, 64, 128];
 
 // Class name of each square of the grid
@@ -15,12 +16,27 @@ const gridColoredClass = "grid-colored";
 function main()
 {
     // DOM Elements that need to have a single reference
+
+    // Reference the grid container
     const gridContainer = document.querySelector("section.grid-container");
+
+    // Reference DOM elements related to grid options
+    const rainbowModeBtnElement = document.querySelector("button#rainbow");
+    const classicModeBtnElement = document.querySelector("button#classic");
+    const darkenModeBtnElement = document.querySelector("button#darken");
     const borderColorInputElement = document.querySelector("input#border-color");
     const canvasColorInputElement = document.querySelector("input#canvas-color");
     const showBordersInputElement = document.querySelector("input#show-borders");
     const numOfSquaresInputElement = document.querySelector("input#number-of-squares");
     const numOfSquaresPElement = document.querySelector("p#number-of-squares-shower");
+
+    // Reference DOM elements related to tools
+    const colorPalleteBtnElement = document.querySelector("button#color-selector");
+    const colorPalleteInputElement = document.querySelector("input#color-pallete");
+    const pencilBtnElement = document.querySelector("button#pencil");
+    const pencilImgElement = document.querySelector("img#pencil-icon");
+    const eraserBtnElement = document.querySelector("button#eraser");
+    const clearCanvasBtnElement = document.querySelector("button#clear-canvas");
 
     // Create the first grid of squares
     createGrid(16, gridContainer);
@@ -37,6 +53,11 @@ function main()
     // Place borders of every grid square as light gray
     configureBorderOfEveryGrid();
 
+    // Let the user change drawing modes
+    rainbowModeBtnElement.addEventListener("click", triggerRainbowMode);
+    classicModeBtnElement.addEventListener("click", triggerClassicMode);
+    darkenModeBtnElement.addEventListener("click", triggerDarkenMode);
+
     // Always show the number of squares the user shows us
     numOfSquaresInputElement.addEventListener("change", (e) => changeGridSize(e, gridContainer, numOfSquaresPElement));
 
@@ -48,6 +69,20 @@ function main()
 
     // Let the user change the color of the canvas
     canvasColorInputElement.addEventListener("change", changeGridBgColor);
+
+    // Let the user chose the drawing color of the canvas
+    colorPalleteBtnElement.addEventListener("click", () => fireUpColorPalletePopup(colorPalleteInputElement));
+    colorPalleteInputElement.addEventListener("change", changeDrawingColor);
+
+    // Let the user change between drawing or not
+    pencilBtnElement.addEventListener("click", () => toggleDrawingMode(pencilImgElement));
+
+    // Let the user delete what he/she drew
+    eraserBtnElement.addEventListener("click", triggerEraseMode);
+
+    // Let the user clear the whole canvas
+    clearCanvasBtnElement.addEventListener("click", clearTheWholeCanvas);
+
 }
 
 /* Event Handlers Here */
@@ -114,25 +149,138 @@ function colorGridsOfCanvas()
 function colorGrid(e)
 {
     const gridToColor = e.target;
-    console.log(gridToColor);
-    
-    // Add the class of coloured grids to this grid
-    if (!gridToColor.classList.contains(gridColoredClass))
-    {
-        gridToColor.classList.add(gridColoredClass);
-    }
 
     // Consider drawing modes
     switch (colorMode)
     {
         case "classic":
-            // Change the background color of this grid to that of the color of the colored grid
-            gridToColor.style.backgroundColor = gridColoredColor;
-            break;
+            {
+                // If drawing is not allowed apply an early return
+                if (!isDrawing)
+                {
+                    return;
+                }
+
+                // Add the class of coloured grids to this grid
+                addOrRemoveClassToElement(gridToColor, gridColoredClass, "add");
+
+                // Change the background color of this grid to that of the color of the colored grid
+                gridToColor.style.backgroundColor = gridColoredColor;
+                break;
+            }
+        
+        case "rainbow":
+            {
+                // If drawing is not allowed apply an early return
+                if (!isDrawing)
+                {
+                    return;
+                }
+
+                // Add the class of coloured grids to this grid
+                addOrRemoveClassToElement(gridToColor, gridColoredClass, "add");
+
+                // Change the background color of this grid to that of a random RGB color
+                gridToColor.style.backgroundColor = generateRandomRGBColor();
+                break;
+            }
+        
+        case "darken":
+            {
+                // If drawing is not allowed apply an early return
+                if (!isDrawing)
+                {
+                    return;
+                }
+
+                // Add the class of coloured grids to this grid
+                addOrRemoveClassToElement(gridToColor, gridColoredClass, "add");
+
+                if (gridToColor.style.backgroundColor === gridBgColor)
+                {
+                    // Apply the initial RGB Color to this grid
+                    gridToColor.style.backgroundColor = "rgb(15, 51, 97)";
+                    console.log("Hey");
+                }
+
+                else
+                {
+                    // Otherwise darken the RGB Colors
+                    gridToColor.style.backgroundColor = darkenRGBColor(gridToColor.style.backgroundColor);
+                }
+
+                break;
+            }
+        
+        case "erase":
+            {
+                // Remove the color grid class if it's been added
+                addOrRemoveClassToElement(gridToColor, gridColoredClass, "remove");
+
+                // Change the background color of this grid to that of the color of the canvas
+                gridToColor.style.backgroundColor = gridBgColor;
+                break;
+            }
         
         default:
+            {
+
+            }
 
     }
+}
+
+function fireUpColorPalletePopup(inputColorPallete)
+{
+    /* Trigger a click event for the given input color element */
+    inputColorPallete.click();
+}
+
+function changeDrawingColor(e)
+{
+    /* Change the drawing color of the canvas */
+    gridColoredColor = convertHexaColorToRGBColor(e.target.value);
+}
+
+function toggleDrawingMode(imgToChange)
+{
+    if (isDrawing)
+    {
+        imgToChange.src = "assets/pics/no-pencil.png";
+        isDrawing = false;
+    }
+
+    else
+    {
+        imgToChange.src = "assets/pics/pencil.png";
+        isDrawing = true;
+    }
+}
+
+function triggerEraseMode()
+{
+    changeDrawingMode("erase");
+}
+
+function triggerRainbowMode()
+{
+    changeDrawingMode("rainbow");
+}
+
+function triggerClassicMode()
+{
+    changeDrawingMode("classic");
+}
+
+function triggerDarkenMode()
+{
+    changeDrawingMode("darken");
+}
+
+function clearTheWholeCanvas()
+{
+    // Remove the colored class from all squares that have them
+    changeColorOfEveryGrid();
 }
 
 /* Common Functions Here */
@@ -153,7 +301,7 @@ function createGrid(numOfSquares, gridContainer)
     for (let i = 0; i < numOfSquares ** 2; i++)
     {
         const gridSquare = document.createElement("div");
-        gridSquare.classList.add(gridSquareClassName);
+        addOrRemoveClassToElement(gridSquare, gridSquareClassName, "add");
         gridContainer.appendChild(gridSquare);
     }
 }
@@ -175,6 +323,7 @@ function changeColorOfEveryGrid(considerColoredGridSquares=false)
     else
     {
         gridSquares.forEach(gridSquare => {
+            addOrRemoveClassToElement(gridSquare, gridColoredClass, "remove");
             gridSquare.style.backgroundColor = gridBgColor;
         });
     }
@@ -202,6 +351,30 @@ function configureBorderOfEveryGrid(showBorder=true)
     gridSquares = document.querySelectorAll(`div.${gridSquareClassName}`);
 }
 
+function addOrRemoveClassToElement(DOMElement, className, action)
+{
+    if (action === "add")
+    {
+        if (!DOMElement.classList.contains(className))
+        {
+            DOMElement.classList.add(className);
+        }
+    }
+
+    else if (action === "remove")
+    {
+        if (DOMElement.classList.contains(className))
+        {
+            DOMElement.classList.remove(className);
+        }
+    }
+
+    else
+    {
+        return;
+    }
+}
+
 function convertHexaColorToRGBColor(hexaColor)
 {
     /* Convert hexadecimal colors to RGB colors */
@@ -214,12 +387,48 @@ function convertHexaColorToRGBColor(hexaColor)
     return `rgb(${red}, ${green}, ${blue})`;
 }
 
+function changeDrawingMode(newDrawingMode)
+{
+    if (colorMode !== newDrawingMode)
+    {
+        colorMode = newDrawingMode;
+    }
+}
+
+function generateRandomRGBColor()
+{
+    /* Generate a random RGB Color */
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+
+    return `rgb(${red}, ${green}, ${blue})`;
+}
+
 function findClosestValue(value, arr)
 {
     /* Return the closest number of a given number found in an array of numbers */
     return arr.reduce((prev, curr) => {
         return (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
       });
+}
+
+function darkenRGBColor(rgbColor)
+{
+    /* Return a 10% darker version of the given RGB color */
+
+    // Extract RGB values from the RGB color
+    const matches = rgbColor.match(/\d+/g);
+    const red = parseInt(matches[0]);
+    const green = parseInt(matches[1]);
+    const blue = parseInt(matches[2]);
+
+    // Calculate new rgb values decreasing each of them by 10%
+    const newRed = Math.max(red - red * 0.1, 0);
+    const newGreen = Math.max(green - green * 0.1, 0);
+    const newBlue = Math.max(blue - blue * 0.1, 0);
+
+    return `rgb(${newRed}, ${newGreen}, ${newBlue})`;
 }
 
 document.addEventListener("DOMContentLoaded", main);

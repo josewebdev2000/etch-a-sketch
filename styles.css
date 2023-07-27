@@ -163,6 +163,51 @@ input#number-of-squares:active
     cursor: grabbing;
 }
 
+div.tools
+{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    border: 3px solid var(--dark-gray);
+    background-color: var(--light-gray);
+}
+
+div.tools button
+{
+    background-color: var(--whitish);
+    border: none;
+    transition: opacity 0.3s;
+}
+
+div.tools button:hover
+{
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+div.tools button:active
+{
+    opacity: 0.3;
+}
+
+div.pencil-wrapper, div.eraser-wrapper, div.clear-canvas-wrapper
+{
+    border-top: 3px solid var(--dark-gray);
+}
+
+button > img
+{
+    width: 25%;
+    max-width: 250px;
+}
+
+input#color-pallete
+{
+    display: none;
+}
+
 
 /* Style the Footer */
 footer

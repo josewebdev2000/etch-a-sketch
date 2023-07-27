@@ -19,6 +19,7 @@
     <header>
         <h1>Etch a Sketch</h1>
     </header>
+
     <main>
         <section class="grid-options">
             <h2>Grid Options</h2>
@@ -58,6 +59,33 @@
 
         <section class="drawing-tools">
             <h2>Drawing Tools</h2>
+
+            <div class="tools">
+                <div class="color-pallete-wrapper" title="Change drawing color">
+                    <button id="color-selector">
+                        <img src="assets/pics/color-pallete.png" alt="Color Pallete Icon">
+                    </button>
+                    <input id="color-pallete" type="color">
+                </div>
+
+                <div class="pencil-wrapper" title="Cancel drawing on canvas or restablish it">
+                    <button id="pencil">
+                        <img id="pencil-icon" src="assets/pics/pencil.png" alt="Pencil Icon">
+                    </button>
+                </div>
+
+                <div class="eraser-wrapper" title="Choose a color mode after erasing">
+                    <button id="eraser">
+                        <img src="assets/pics/eraser.png" alt="Eraser Icon">
+                    </button>
+              </div>
+
+                <div class="clear-canvas-wrapper" title="Clear the whole canvas">
+                    <button id="clear-canvas">
+                        <img src="assets/pics/clear.png" alt="Clear Icon">
+                    </button>
+                </div>
+            </div>
         </section>
     </main>
     <footer>
