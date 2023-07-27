@@ -200,7 +200,6 @@ function colorGrid(e)
                 {
                     // Apply the initial RGB Color to this grid
                     gridToColor.style.backgroundColor = "rgb(15, 51, 97)";
-                    console.log("Hey");
                 }
 
                 else
