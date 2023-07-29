@@ -15,11 +15,6 @@
     --non-cursive: 'Times New Roman', Times, serif;
 }
 
-lsdjf
-{
-    color: rgb(15, 15, 15);
-}
-
 *
 {
     padding: 0;
@@ -29,9 +24,6 @@ lsdjf
 /* General Styles */
 body
 {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
     background-color: var(--light-brown);
 }
 
@@ -212,11 +204,9 @@ input#color-pallete
 /* Style the Footer */
 footer
 {
-   position:fixed;
-   top: 77%;
-   width: 100%;
-   height: 100%; 
-   background-color: var(--dark-gray);
+    margin-top: 3vh;
+    padding: 1.3vh;
+    background-color: var(--dark-gray);
 }
 
 div.footer-content
@@ -226,7 +216,6 @@ div.footer-content
     justify-content: center;
     align-items: center;
     position: relative;
-    top: 25px;
 }
 
 img#profile-pic
