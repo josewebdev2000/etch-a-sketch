@@ -83,6 +83,10 @@ function main()
     // Let the user clear the whole canvas
     clearCanvasBtnElement.addEventListener("click", clearTheWholeCanvas);
 
+    document.addEventListener("dblclick", () => {
+        pencilBtnElement.click();
+    });
+
 }
 
 /* Event Handlers Here */
